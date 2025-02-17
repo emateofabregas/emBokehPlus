@@ -1,7 +1,7 @@
 Gizmo {
 name emBokehPlus
 inputs 5
-knobChanged "import nuke\n\nn = nuke.thisNode()\nk = nuke.thisKnob()\n\n\ndef dPos(picker_knob, pos_knob, sampleNode):\n    pos = n\[picker_knob].value()\n    animated = nuke.thisKnob().isAnimated()\n            \n    # Check if proxy mode is active\n    if nuke.root().knob('proxy').value():\n        nuke.message('You have to disable proxy mode to use this feature.')\n        \n    #Sample the P_World AOV to get the position\n    else:\n        r = sampleNode.sample('depth.Z',  pos\[0], pos\[1],)\n    \n    # Check the knob if it's animated               \n    if animated:\n        if not n.knob(pos_knob).isAnimated():\n            n.knob(pos_knob).setAnimated()\n        else:\n            n.knob(pos_knob).clearAnimated()\n                        \n    # Set the end_3d knob with the sampled values\n    n\[pos_knob].setValue(\[r])\n\n\nbokeh = nuke.toNode('Bokeh1')\ndPos('focal_point', 'focalPlane', bokeh)"
+knobChanged "import nuke\n\nn = nuke.thisNode()\nk = nuke.thisKnob()\n\n\ndef dPos(picker_knob, pos_knob, sampleNode):\n    pos = n\[picker_knob].value()\n    animated = nuke.thisKnob().isAnimated()\n            \n    # Check if proxy mode is active\n    if nuke.root().knob('proxy').value():\n        nuke.message('You have to disable proxy mode to use this feature.')\n        \n    #Sample the P_World AOV to get the position\n    else:\n        r = sampleNode.sample(n\['depthChannel'].value(),  pos\[0], pos\[1],)\n    \n    # Check the knob if it's animated               \n    if animated:\n        if not n.knob(pos_knob).isAnimated():\n            n.knob(pos_knob).setAnimated()\n        else:\n            n.knob(pos_knob).clearAnimated()\n                        \n    # Set the end_3d knob with the sampled values\n    n\[pos_knob].setValue(\[r])\n\n\ndepthChannel = n\ndPos('focal_point', 'focalPlane', depthChannel)"
 tile_color 0xc67f4bff
 addUserKnob {20 User l emBokehPlus}
 addUserKnob {41 bokehChannels l "Bokeh Channels" T Bokeh1.bokehChannels}
@@ -13,7 +13,7 @@ addUserKnob {41 frontmultiplier l "Front Multiplier" T Bokeh1.frontmultiplier}
 addUserKnob {41 backmultiplier l "Back Multiplier" T Bokeh1.backmultiplier}
 addUserKnob {41 depthStyle l "Depth Style" T Bokeh1.depthStyle}
 addUserKnob {12 focal_point l "Focal Point"}
-focal_point {770 556}
+focal_point {812 510}
 addUserKnob {41 focalPlane l "Focal Plane" T Bokeh1.focalPlane}
 addUserKnob {41 focusRegionSize l "Focus Region Size" T Bokeh1.focusRegionSize}
 addUserKnob {41 focusRegionFalloff l "Focus Region Falloff" T Bokeh1.focusRegionFalloff}
@@ -21,7 +21,7 @@ addUserKnob {41 defocusMatteChannel l "Defocus Matte Channel" T Bokeh1.defocusMa
 addUserKnob {41 normalizeVisualization l "Normalize Visualization" T Bokeh1.normalizeVisualization}
 addUserKnob {41 integrateFrontAndBackSeperately l "Integrate Deep Front and Back Separately" T Bokeh1.integrateFrontAndBackSeperately}
 addUserKnob {26 ""}
-addUserKnob {26 Autor l "" +STARTLINE T "<font color='grey'>emBokehPlus v1.0 | emateofabregas.com | 2025</font>"}
+addUserKnob {26 Autor l "" +STARTLINE T "<font color='grey'>emBokehPlus v1.1 | emateofabregas.com | 2025</font>"}
 addUserKnob {20 tab_lens l Lens}
 addUserKnob {41 realWorldLens l "Real World Lens Simulation" T Bokeh1.realWorldLens}
 addUserKnob {41 focalLength l "Focal Length" T Bokeh1.focalLength}
@@ -96,8 +96,9 @@ ypos -372
 }
 Bokeh {
 inputs 5
-focalPlane 20.12302017
+focalPlane 20.06148148
 worldScaleMultiplier 10
+kChrAbbOff {0.6000000238 1 1}
 name Bokeh1
 xpos 647
 ypos -261
